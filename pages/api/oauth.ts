@@ -7,7 +7,7 @@ const SECRETS = {
   clientSecret: process.env.CLIENT_SECRET!,
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<HelloSignSDK.OAuthTokenResponse>) {
   const { code, state } = req.query;
 
   if (!state) {
@@ -16,18 +16,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const hs = new HelloSignSDK.OAuthApi();
-    hs.setApiKey(SECRETS.apiKey);
+    const request = new HelloSignSDK.OAuthTokenGenerateRequest();
 
-    let token = await hs.oauthTokenGenerate({
-      state: state as string,
-      code: code as string,
-      clientId: SECRETS.clientId,
-      clientSecret: SECRETS.clientSecret,
-      grantType: "authorization_code",
-    });
+    hs.username = SECRETS.apiKey;
+    request.state = state as string;
+    request.code = code as string;
+    request.clientId = SECRETS.clientId;
+    request.clientSecret = SECRETS.clientSecret;
+    request.grantType = "authorization_code";
 
-    if (token) {
-      res.json(token);
+    const response = await hs.oauthTokenGenerate(request);
+
+    if (response.body) {
+      res.json(response.body);
     } else {
       throw new Error();
     }
