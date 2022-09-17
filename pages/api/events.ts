@@ -1,11 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type EventSuccessResponse = {
-  success: boolean;
-};
-
-export default function handler(req: NextApiRequest, res: NextApiResponse<EventSuccessResponse>) {
+export default function handler(req: NextApiRequest, res: NextApiResponse<string>) {
   if (req.method === "POST") {
     res.status(200).send("Hello API Event Received");
   } else {
