@@ -13,6 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     console.log(code);
     console.log(state);
+    console.log({ SECRETS });
 
     if (!state) {
       res.status(500).end();
