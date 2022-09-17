@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { code, state } = req.query;
 
   if (!state) {
-    res.redirect("/error");
+    res.status(500);
   }
 
   try {
