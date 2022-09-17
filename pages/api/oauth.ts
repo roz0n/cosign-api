@@ -1,6 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as HelloSignSDK from "hellosign-sdk";
-import SECRETS from "../secrets/hs.secrets";
+
+const SECRETS = {
+  apiKey: process.env.API_KEY!,
+  clientId: process.env.CLIENT_ID!,
+  clientSecret: process.env.CLIENT_SECRET!,
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { code, state } = req.query;
