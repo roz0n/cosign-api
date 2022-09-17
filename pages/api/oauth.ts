@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const { code, state } = req.query;
 
   if (!state) {
-    res.status(500);
+    res.status(500).end();
   }
 
   try {
@@ -28,11 +28,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const response = await hs.oauthTokenGenerate(request);
 
     if (response.body) {
-      res.json(response.body);
+      res.status(200).send(response.body);
     } else {
       throw new Error();
     }
   } catch (error) {
-    res.status(500);
+    res.status(500).end();
   }
 }
