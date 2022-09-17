@@ -10,6 +10,9 @@ const SECRETS = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse<HelloSignSDK.OAuthTokenResponse>) {
   const { code, state } = req.query;
 
+  console.log(code);
+  console.log(state);
+
   if (!state) {
     res.status(500).end();
   }
@@ -17,6 +20,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     const hs = new HelloSignSDK.OAuthApi();
     const request = new HelloSignSDK.OAuthTokenGenerateRequest();
+
+    console.log("Made it here");
 
     hs.username = SECRETS.apiKey;
     request.state = state as string;
