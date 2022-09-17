@@ -7,45 +7,40 @@ const SECRETS = {
   clientSecret: process.env.CLIENT_SECRET!,
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<HelloSignSDK.OAuthTokenResponse>) {
-  try {
-    const { code, state } = req.query;
+export default function handler(req: NextApiRequest, res: NextApiResponse<HelloSignSDK.OAuthTokenResponse>) {
+  //   try {
+  const { code, state } = req.query;
 
-    console.log(code);
-    console.log(state);
-    console.log({ SECRETS });
+  console.log(code);
+  console.log(state);
+  console.log({ SECRETS });
 
-    if (!state) {
-      res.status(500).end();
-    }
-
-    const hs = new HelloSignSDK.OAuthApi();
-    hs.username = SECRETS.apiKey;
-
-    console.log("A");
-
-    const request = new HelloSignSDK.OAuthTokenGenerateRequest();
-    request.state = state as string;
-    request.code = code as string;
-    request.clientId = SECRETS.clientId;
-    request.clientSecret = SECRETS.clientSecret;
-    request.grantType = "authorization_code";
-
-    console.log("B");
-
-    const response = await hs.oauthTokenGenerate(request);
-
-    console.log("C");
-    if (response.body) {
-      console.log("D");
-
-      res.status(200).send(response.body);
-    } else {
-      console.log("E");
-      throw new Error();
-    }
-  } catch (error) {
-    console.log("F");
+  if (!state) {
     res.status(500).end();
   }
+
+  const hs = new HelloSignSDK.OAuthApi();
+  hs.username = SECRETS.apiKey;
+
+  console.log("A");
+
+  const request = new HelloSignSDK.OAuthTokenGenerateRequest();
+  request.state = state as string;
+  request.code = code as string;
+  request.clientId = SECRETS.clientId;
+  request.clientSecret = SECRETS.clientSecret;
+  request.grantType = "authorization_code";
+
+  console.log("B");
+
+  const response = hs.oauthTokenGenerate(request);
+
+  response
+    .then((token) => {
+      res.status(200).send(token.body);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).end();
+    });
 }
