@@ -27,8 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       url: "https://api.hellosign.com/v3/oauth/token",
       method: "POST",
       data: {
-        state: state as string,
-        code: code as string,
+        state: state,
+        code: code,
         clientId: SECRETS.clientId,
         clientSecret: SECRETS.clientSecret,
         grantType: "authorization_code",
