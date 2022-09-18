@@ -1,18 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
-const SECRETS = {
-  apiKey: process.env.API_KEY!,
-  clientId: process.env.CLIENT_ID!,
-  clientSecret: process.env.CLIENT_SECRET!,
-};
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { code, state } = req.query;
 
   if (!state) {
     res.status(500).send({ error: "state_mismatch" });
   }
+
+  const SECRETS = {
+    apiKey: process.env.API_KEY!,
+    clientId: process.env.CLIENT_ID!,
+    clientSecret: process.env.CLIENT_SECRET!,
+  };
 
   try {
     let response = await axios({
