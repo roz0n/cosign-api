@@ -37,10 +37,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<HelloS
 
   response
     .then((token) => {
+      console.log({ token });
       res.status(200).send(token.body);
     })
     .catch((error) => {
-      console.log(error);
+      console.log({ error });
       res.status(500).end();
     });
 }
