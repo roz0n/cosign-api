@@ -8,7 +8,7 @@ const SECRETS = {
   clientSecret: process.env.CLIENT_SECRET!,
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<HelloSignSDK.OAuthTokenResponse>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { code, state } = req.query;
 
   console.log(code);
@@ -33,10 +33,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
 
     if (response.status === 200) {
-      res.redirect(
-        "/#" +
-          `success?atk=${response.data.access_token}&rtk=${response.data.refresh_token}&tkexp=${response.data.expires_in}`
-      );
+      console.log({ response });
+      res.status(200).send(response.data.body);
     } else {
       throw new Error();
     }
