@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const response = await axios({
-      url: "https://app.hellosign.com/oauth/token",
+      url: "https://app.hellosign.com/oauth/token?grant_type=authorization_code",
       method: "POST",
       headers: { "Content-Type": "multipart/form-data" },
       data: {
