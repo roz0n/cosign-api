@@ -16,10 +16,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   console.log({ SECRETS });
 
   if (!state) {
+    console.log("No state present");
     res.status(500).end();
   }
 
   try {
+    console.log("trying acios");
+
     const response = await axios({
       url: "https://api.hellosign.com/v3/oauth/token",
       method: "POST",
@@ -31,6 +34,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         grantType: "authorization_code",
       },
     });
+
+    console.log({ response });
+    console.log(response.status);
+    console.log(response.statusText);
 
     if (response.status === 200) {
       console.log({ response });
