@@ -31,12 +31,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
+    console.log(response.status);
+    console.log(response.statusText);
+
     if (response.status === 200) {
       res.status(200).json(response.data.body);
     } else {
       throw new Error();
     }
   } catch (error) {
+    console.log("ERROR");
+    console.log(error);
     res.status(500).send({ error: "Failed to fetch token" });
   }
 }
