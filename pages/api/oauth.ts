@@ -51,6 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (response.status === 200) {
       res.status(200).json(response.body);
     } else {
+      console.log(response.body);
       throw new Error("Status is not 200");
     }
   } catch (error) {
