@@ -22,20 +22,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await axios({
       url: "https://app.hellosign.com/oauth/token?grant_type=authorization_code",
       method: "POST",
-      headers: { "Content-Type": "multipart/form-data" },
-      data: {
+      params: {
         state: state,
         code: code,
-        clientId: SECRETS.clientId,
-        clientSecret: SECRETS.clientSecret,
-      },
-      params: {
         grantType: "authorization_code",
       },
+      headers: {
+        Authorization:
+          "Basic " + Buffer.from(process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET).toString("base64"),
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
     });
-
-    console.log(response.status);
-    console.log(response.statusText);
 
     if (response.status === 200) {
       res.status(200).json(response.data.body);
@@ -43,8 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error();
     }
   } catch (error) {
-    console.log("ERROR");
     console.log(error);
-    res.status(500).send({ error: "Failed to fetch token" });
+    res.status(500).send({ error: "Error fetching token" });
   }
 }
