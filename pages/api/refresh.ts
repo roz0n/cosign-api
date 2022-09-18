@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    let response = await axios({
+    const response = await axios({
       method: "POST",
       url: "https://app.hellosign.com/oauth/token",
       headers: {
