@@ -41,6 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error();
     }
   } catch (error) {
+    console.log("Error:");
     console.log(error);
     res.status(500).send({ error: "Error fetching token" });
   }
