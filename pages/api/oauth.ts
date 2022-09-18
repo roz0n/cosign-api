@@ -37,25 +37,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //   throw new Error();
     // }
 
-    let response = await fetch("https://app.hellosign.com/oauth/token?grant_type=authorization_code", {
+    // let response = await fetch("https://app.hellosign.com/oauth/token?grant_type=authorization_code", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     state: state,
+    //     code: code,
+    //     clientId: SECRETS.clientId,
+    //     clientSecret: SECRETS.clientSecret,
+    //     grant_type: "authorization_code",
+    //   }),
+    // });
+
+    let response = await axios({
       method: "POST",
-      body: JSON.stringify({
-        state: state,
+      url: "https://app.hellosign.com/oauth/token",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      data: {
+        client_id: SECRETS.clientId,
         code: code,
-        clientId: SECRETS.clientId,
-        clientSecret: SECRETS.clientSecret,
+        state: state,
+        client_secret: SECRETS.clientSecret,
         grant_type: "authorization_code",
-      }),
+      },
     });
 
     if (response.status === 200) {
-      res.status(200).json(response.body);
+      res.status(200).json(response.data);
     } else {
-      console.log(response.body);
-      throw new Error("Status is not 200");
+      console.log(response.data);
+      throw new Error("Non-200 status code received");
     }
   } catch (error) {
-    console.log("Error:");
     console.log(error);
     res.status(500).send({ error: "Error fetching token" });
   }
