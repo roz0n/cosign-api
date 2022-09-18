@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as HelloSignSDK from "hellosign-sdk";
+import axios from "axios";
 
 const SECRETS = {
   apiKey: process.env.API_KEY!,
@@ -7,8 +8,7 @@ const SECRETS = {
   clientSecret: process.env.CLIENT_SECRET!,
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<HelloSignSDK.OAuthTokenResponse>) {
-  //   try {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<HelloSignSDK.OAuthTokenResponse>) {
   const { code, state } = req.query;
 
   console.log(code);
@@ -19,29 +19,28 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<HelloS
     res.status(500).end();
   }
 
-  const hs = new HelloSignSDK.OAuthApi();
-  hs.username = SECRETS.apiKey;
-
-  console.log("A");
-
-  const request = new HelloSignSDK.OAuthTokenGenerateRequest();
-  request.state = state as string;
-  request.code = code as string;
-  request.clientId = SECRETS.clientId;
-  request.clientSecret = SECRETS.clientSecret;
-  request.grantType = "authorization_code";
-
-  console.log("B");
-
-  const response = hs.oauthTokenGenerate(request);
-
-  response
-    .then((token) => {
-      console.log({ token });
-      res.status(200).send(token.body);
-    })
-    .catch((error) => {
-      console.log({ error });
-      res.status(500).end();
+  try {
+    const response = await axios({
+      url: "https://api.hellosign.com/v3/oauth/token",
+      method: "POST",
+      data: {
+        state: state as string,
+        code: code as string,
+        clientId: SECRETS.clientId,
+        clientSecret: SECRETS.clientSecret,
+        grantType: "authorization_code",
+      },
     });
+
+    if (response.status === 200) {
+      res.redirect(
+        "/#" +
+          `success?atk=${response.data.access_token}&rtk=${response.data.refresh_token}&tkexp=${response.data.expires_in}`
+      );
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    res.status(500).end();
+  }
 }
