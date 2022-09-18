@@ -11,20 +11,13 @@ const SECRETS = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { code, state } = req.query;
 
-  console.log(code);
-  console.log(state);
-  console.log({ SECRETS });
-
   if (!state) {
-    console.log("No state present");
-    res.status(500).end();
+    res.status(500).send({ error: "state_mismatch" });
   }
 
   try {
-    console.log("trying acios");
-
     const response = await axios({
-      url: "https://api.hellosign.com/v3/oauth/token",
+      url: "https://app.hellosign.com/oauth/token",
       method: "POST",
       data: {
         state: state,
@@ -35,17 +28,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    console.log({ response });
-    console.log(response.status);
-    console.log(response.statusText);
-
     if (response.status === 200) {
-      console.log({ response });
-      res.status(200).send(response.data.body);
+      res.status(200).json(response.data.body);
     } else {
       throw new Error();
     }
   } catch (error) {
-    res.status(500).end();
+    res.status(500).send({ error: "Failed to fetch token" });
   }
 }
