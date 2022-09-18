@@ -22,11 +22,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await axios({
       url: "https://app.hellosign.com/oauth/token",
       method: "POST",
+      headers: { "Content-Type": "multipart/form-data" },
       data: {
         state: state,
         code: code,
         clientId: SECRETS.clientId,
         clientSecret: SECRETS.clientSecret,
+      },
+      params: {
         grantType: "authorization_code",
       },
     });
