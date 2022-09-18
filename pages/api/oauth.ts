@@ -15,6 +15,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send({ error: "state_mismatch" });
   }
 
+  console.log("code", code);
+  console.log("state", state);
+
   try {
     const response = await axios({
       url: "https://app.hellosign.com/oauth/token",
