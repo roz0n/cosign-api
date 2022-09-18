@@ -25,13 +25,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       params: {
         state: state,
         code: code,
-        grantType: "authorization_code",
-      },
-      headers: {
-        Authorization:
-          "Basic " + Buffer.from(process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET).toString("base64"),
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
+        grant_type: "authorization_code",
+        client_id: SECRETS.clientId,
+        client_secret: SECRETS.clientSecret,
       },
     });
 
