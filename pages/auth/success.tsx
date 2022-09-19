@@ -12,8 +12,8 @@ const AuthSuccess: NextPage = () => {
   }, []);
 
   return (
-    <div style={{ padding: "0 2rem" }}>
-      <p>Redirecting...</p>
+    <div style={{ padding: "1rem 2rem", fontFamily: "sans-serif" }}>
+      <p>Welcome to CoSign! Redirecting you back to the app...</p>
     </div>
   );
 };
