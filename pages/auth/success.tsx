@@ -8,7 +8,6 @@ const AuthSuccess: NextPage = () => {
   };
 
   useEffect(() => {
-    console.log(window.location);
     handleRedirect();
   }, []);
 

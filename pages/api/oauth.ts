@@ -34,14 +34,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const hasToken = response?.data.access_token && response.data.refresh_token && response.data.expires_in;
 
     if (response.status === 200 && hasToken) {
-      // res.status(200).json(response.data);
       let params = querystring.stringify({
         accessToken: response.data.access_token,
         refreshToken: response.data.refresh_token,
         expiresIn: response.data.expires_in,
       });
 
-      res.redirect(`/auth/success#${params}`);
+      res.redirect(`/auth/success?${params}`);
     } else {
       throw new Error("Bad response");
     }
