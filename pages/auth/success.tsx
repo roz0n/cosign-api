@@ -12,7 +12,7 @@ const AuthSuccess: NextPage = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ padding: "0 2rem" }}>
       <p>Redirecting...</p>
     </div>
   );
