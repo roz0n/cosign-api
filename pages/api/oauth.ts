@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
+import querystring from "querystring";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { code, state } = req.query;
@@ -15,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   };
 
   try {
-    let response = await axios({
+    const response = await axios({
       method: "POST",
       url: "https://app.hellosign.com/oauth/token",
       headers: {
@@ -30,8 +31,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    if (response.status === 200) {
-      res.status(200).json(response.data);
+    const hasToken = response?.data.access_token && response.data.refresh_token && response.data.expires_in;
+
+    if (response.status === 200 && hasToken) {
+      // res.status(200).json(response.data);
+      let params = querystring.stringify({
+        accessToken: response.data.access_token,
+        refreshToken: response.data.refresh_token,
+        expiresIn: response.data.expires_in,
+      });
+
+      res.redirect(`/auth/success#${params}`);
     } else {
       throw new Error("Bad response");
     }
