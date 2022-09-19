@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const AuthSuccess: NextPage = () => {
   const handleRedirect = () => {
     const params = new URLSearchParams(window.location.search);
-    window.location.replace("cosign://auth" + params.toString());
+    window.location.replace("cosign://auth?" + params.toString());
   };
 
   useEffect(() => {
