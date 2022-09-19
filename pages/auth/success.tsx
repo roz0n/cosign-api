@@ -3,18 +3,17 @@ import { useEffect } from "react";
 
 const AuthSuccess: NextPage = () => {
   const handleRedirect = () => {
-    console.log("Called");
-    window.location.replace("cosign://auth");
+    const params = new URLSearchParams(window.location.search);
+    window.location.replace("cosign://auth" + params.toString());
   };
 
   useEffect(() => {
-    console.log("Called two");
     handleRedirect();
   }, []);
 
   return (
     <div>
-      <p>Login success</p>
+      <p>Redirecting...</p>
     </div>
   );
 };
