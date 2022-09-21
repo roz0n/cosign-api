@@ -1,6 +1,7 @@
 {
   "appclips": {
     "apps": [
+      "com.notenoughscience.CoSign",
       "com.notenoughscience.CoSign.Clip"
     ]
   }
