@@ -1,14 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as HelloSignSDK from "hellosign-sdk";
 
-function createSignersList(
-  signers: { emailAddress: string; name: string }[]
-): HelloSignSDK.SubSignatureRequestSigner[] {
-  let signersList: HelloSignSDK.SubSignatureRequestSigner[] = [];
-  signers.forEach((signer) => signersList.push(signer));
-  return signersList;
-}
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (!req.body) {
@@ -40,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       title,
       subject,
       message,
-      signers: createSignersList(signers),
+      signers: signers,
       ccEmailAddresses,
       fileUrl,
       signingOptions,
@@ -54,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).send(response.body);
     }
   } catch (error) {
-    console.log("Failed to create new signature request", error);
+    console.log("Failed to create new signature request:", error);
     res.status(500).json({ error: "Failed to create new signature request" });
   }
 }
