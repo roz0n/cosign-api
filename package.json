@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "aws-sdk": "^2.1221.0",
     "axios": "^0.27.2",
     "hellosign-sdk": "github:HelloFax/hellosign-nodejs-sdk#openapi",
+    "mongodb": "^4.10.0",
     "next": "12.3.0",
     "querystring": "^0.2.1",
     "react": "18.2.0",
