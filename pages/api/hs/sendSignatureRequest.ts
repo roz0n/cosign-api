@@ -1,16 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as HelloSignSDK from "hellosign-sdk";
 
+function createSignersList(
+  signers: { emailAddress: string; name: string }[]
+): HelloSignSDK.SubSignatureRequestSigner[] {
+  let signersList: HelloSignSDK.SubSignatureRequestSigner[] = [];
+  signers.forEach((signer) => signersList.push(signer));
+  return signersList;
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    let api = new HelloSignSDK.SignatureRequestApi();
-    api.username = process.env.API_KEY!;
+    if (!req.body) {
+      throw new Error();
+    }
 
-    const signer: HelloSignSDK.SubSignatureRequestSigner = {
-      emailAddress: "arnold@rozon.org",
-      name: "Arnold",
-      order: 0,
-    };
+    const { title, subject, message, signers, ccEmailAddresses, fileUrl } = req.body;
+
+    if (!title || !subject || !signers) {
+      throw new Error();
+    }
+
+    const api = new HelloSignSDK.SignatureRequestApi();
+    api.username = process.env.API_KEY!;
 
     const fieldOptions: HelloSignSDK.SubFieldOptions = {
       dateFormat: HelloSignSDK.SubFieldOptions.DateFormatEnum.DD_MM_YYYY,
@@ -25,15 +37,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     };
 
     const data: HelloSignSDK.SignatureRequestSendRequest = {
-      title: "Test Signature Request 1",
-      subject: "Testing Signature Request API",
-      message: "Please sign this NDA and then we can discuss more. Let me know if you have any questions.",
-      signers: [signer],
-      ccEmailAddresses: ["arnoldrozon@gmail.com"],
-      fileUrl: ["https://saclaw.org/wp-content/uploads/sbs-notice-of-automatic-stay.pdf"],
-      metadata: {
-        custom_id: 1,
-      },
+      title,
+      subject,
+      message,
+      signers: createSignersList(signers),
+      ccEmailAddresses,
+      fileUrl,
       signingOptions,
       fieldOptions,
       testMode: true,
