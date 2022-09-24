@@ -3,6 +3,10 @@ import * as HelloSignSDK from "hellosign-sdk";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    if (req.method !== "POST") {
+      throw new Error();
+    }
+
     if (!req.body) {
       throw new Error();
     }
