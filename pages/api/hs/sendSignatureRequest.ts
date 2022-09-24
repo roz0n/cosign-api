@@ -4,17 +4,17 @@ import * as HelloSignSDK from "hellosign-sdk";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method !== "POST") {
-      throw new Error();
+      res.status(405).send({ message: "Sir, this is a POST route" });
     }
 
     if (!req.body) {
-      throw new Error();
+      throw new Error("Malformed body");
     }
 
     const { title, subject, message, signers, ccEmailAddresses, fileUrl } = req.body;
 
     if (!title || !subject || !signers) {
-      throw new Error();
+      throw new Error("Missing fields");
     }
 
     const api = new HelloSignSDK.SignatureRequestApi();
@@ -38,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       message,
       signers: signers,
       ccEmailAddresses,
-      fileUrl,
+      fileUrl: [fileUrl],
       signingOptions,
       fieldOptions,
       testMode: true,
