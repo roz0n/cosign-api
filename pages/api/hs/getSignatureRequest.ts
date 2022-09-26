@@ -3,25 +3,24 @@ import * as HelloSignSDK from "hellosign-sdk";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    // let { accessToken } = req.query;
+    let { signatureId } = req.query;
 
-    // console.log("ACCESS TOKEN", accessToken);
-
-    // if (!accessToken) {
-    //   res.status(500).send({ error: "No access token provided" });
-    // }
+    if (!signatureId) {
+      res.status(500).send({ error: "Invalid id provided" });
+    }
 
     const api = new HelloSignSDK.SignatureRequestApi();
     api.username = process.env.API_KEY!;
     // api.accessToken = accessToken as string;
 
-    const response = await api.signatureRequestList(undefined, 1);
+    const response = await api.signatureRequestGet(signatureId as string);
 
     if (response.body) {
+      console.log("SINGLE GET RESPONSE", response.body);
       res.status(200).send(response.body);
     }
   } catch (error) {
-    console.log("Failed to list requests:", error);
-    res.status(500).json({ error: "Failed to list requests" });
+    console.log("Failed get signature request:", error);
+    res.status(500).json({ error: "Failed to get signature request" });
   }
 }
