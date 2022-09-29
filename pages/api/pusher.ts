@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Pusher from "pusher";
 import pusherOptions from "../../helpers/pusherOptions";
+
+const Pusher = require("pusher");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
