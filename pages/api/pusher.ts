@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Pusher from "pusher";
-import pusherOptions from "../helpers/pusherOptions";
+import pusherOptions from "../../helpers/pusherOptions";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const pusher = new Pusher(pusherOptions);
-    let pusherResponse = await pusher.trigger("channel", "event", req.body!);
+    let pusherResponse = await pusher.trigger("hs", "update", req.body!);
 
     if (pusherResponse.status !== 200) {
       throw new Error("Pusher failed");

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Pusher from "pusher";
-import pusherOptions from "../helpers/pusherOptions";
+import pusherOptions from "../../helpers/pusherOptions";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const pusher = new Pusher(pusherOptions);
-    const response = await pusher.trigger("hellosign", "update", req.body);
+    const response = await pusher.trigger("hs", "update", req.body);
 
     if (response.status === 200) {
       res.status(200).send("Hello API Event Received");
