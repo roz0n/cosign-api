@@ -14,6 +14,7 @@
     "hellosign-sdk": "github:HelloFax/hellosign-nodejs-sdk#openapi",
     "mongodb": "^4.10.0",
     "next": "12.3.0",
+    "pusher": "^5.1.1-beta",
     "querystring": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"

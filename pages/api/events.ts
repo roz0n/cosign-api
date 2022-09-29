@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import * as Pusher from "pusher";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<string>) {
   if (req.method === "POST") {
