@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Pusher from "../../pusherClient";
+import Pusher from "../../clients/pusher";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
