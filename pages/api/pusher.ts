@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const pusher = new Pusher(pusherOptions);
-    let pusherResponse = await pusher.trigger("hs", "update", req.body!);
+    let pusherResponse = await pusher.trigger("cosign", "app-event", req.body!);
 
     if (pusherResponse.status !== 200) {
       throw new Error("Pusher failed");
