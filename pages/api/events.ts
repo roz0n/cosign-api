@@ -10,14 +10,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: true });
     }
 
-    const { event, signatureRequest } = req.body as EventCallbackAccountRequestPayload;
-
-    if (!event) {
+    if (!req.body) {
       res.status(400).json({ error: true });
     }
 
     const pusher = new Pusher(pusherOptions);
-    const response = await pusher.trigger("cosign", "app-event", { event, signatureRequest });
+    const response = await pusher.trigger("cosign", "app-event", req.body);
 
     if (response.status === 200) {
       res.status(200).send("Hello API Event Received");
