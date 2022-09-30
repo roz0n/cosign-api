@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import pusherOptions from "../../helpers/pusherOptions";
-
-const Pusher = require("pusher");
+import Pusher from "../../pusherClient";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -13,10 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(400).json({ error: true });
     }
 
-    const pusher = new Pusher(pusherOptions);
-    let pusherResponse = await pusher.trigger("cosign", "app-event", req.body!);
+    const response = await Pusher.trigger("cosign", "app-event", req.body!);
 
-    if (pusherResponse.status !== 200) {
+    if (response.status !== 200) {
       throw new Error("Pusher failed");
     } else {
       res.status(200).end("success");

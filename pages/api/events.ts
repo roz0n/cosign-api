@@ -1,8 +1,6 @@
 import { EventCallbackAccountRequestPayload } from "hellosign-sdk";
 import type { NextApiRequest, NextApiResponse } from "next";
-import pusherOptions from "../../helpers/pusherOptions";
-
-const Pusher = require("pusher");
+import Pusher from "../../pusherClient";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -16,8 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(400).json({ error: true });
     }
 
-    const pusher = new Pusher(pusherOptions);
-    const response = await pusher.trigger("cosign", "app-event", { event, signatureRequest });
+    const response = await Pusher.trigger("cosign", "app-event", { event, signatureRequest });
 
     if (response.status === 200) {
       res.status(200).send("Hello API Event Received");
