@@ -4,7 +4,7 @@
 
 ## Disclaimer
 
-This code was written in haste in about 7 days and doesn't adhere to best practices. The coordinator implementation is especially poor and there's a lot of repeated code. None the less, the interesting bits work.
+This code was written in haste in about 7 days and doesn't adhere to best practices. None the less, the interesting bits work.
 
 ## Getting Started
 
