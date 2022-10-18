@@ -1,6 +1,10 @@
 # cosign-api
 
-HelloSign "Go Paperless" Hackathon 2022
+🏆 HelloSign "Go Paperless" Hackaton 2022 winning submission
+
+## Disclaimer
+
+This code was written in haste in about 7 days and doesn't adhere to best practices. The coordinator implementation is especially poor and there's a lot of repeated code. None the less, the interesting bits work.
 
 ## Getting Started
 
