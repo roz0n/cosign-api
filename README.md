@@ -1,6 +1,6 @@
 # cosign-api
 
-🏆 HelloSign "Go Paperless" Hackaton 2022 winning submission
+🏆 HelloSign "Go Paperless" Hackathon: 2022 First Place Winner
 
 ## Disclaimer
 
